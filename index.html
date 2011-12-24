@@ -1,1 +1,70 @@
-Helo
+<html>
+<head>
+<title>Name Generator</title>
+<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+function createNames() {
+
+var V = ['a','e','i','o','u'];
+var K = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z'];
+$('#output').empty();
+var pattern = $('#pattern').val();
+for(var i = 1; i < 1000; i++) {
+var charMap = {};
+var result = '';
+for(var j = 0; j < pattern.length; j++) {
+var ch = pattern.charAt(j);
+if (ch == '$') {
+result += pattern.charAt(j+1);
+j++;
+continue;
+}
+if (ch == ch.toLowerCase()) {
+if (V.indexOf(ch) != -1) {
+result += V[Math.floor(Math.random()*V.length)];
+} else {
+result += K[Math.floor(Math.random()*K.length)];
+}
+} else {
+ch = ch.toLowerCase();
+if (charMap[ch] != undefined) {
+result += charMap[ch];
+} else {
+var x = '';
+if (V.indexOf(ch) != -1) {
+x = V[Math.floor(Math.random()*V.length)];
+} else {
+x = K[Math.floor(Math.random()*K.length)];
+}
+charMap[ch] = x;
+result += x;
+}
+}
+}
+$('#output').append('<div>'+result+'</div>');
+}
+}
+</script>
+</head>
+<body>
+<div style="background-color: #FFF4C6; border: 1px solid #BFB485; margin: 10px; padding: 5px;">
+<h1>Andy's Name Generator</h1>
+<h3>Rules:</h3>
+<ul>
+<li>Lowercase characters will be replaced by random characters. A vowel will be replaced by another vowel. A consonant by another consonant.</li>
+<li>Upperchase characters will also replaced by random characters. But each uppercase character will always have the same substitute within the pattern</li>
+<li>If a charater is prefixed with a $ sign, it is used in the result and not replaced</li>
+</ul>
+<h3>Examples:</h3>
+<ul>
+<li>banana - Will create results with the same pattern of vowel/consonants</li>
+<li>bAnAnA - Will create results with the same pattern and the uppercase A will always be replaced by the same character</li>
+<li>$Banan$A - Will create results which always start with a B and end with an A</li>
+</ul>
+</div>
+<div style="text-align: right">Version: 24-12-2011</div>
+<div><label for="pattern">Pattern: </label><input id="pattern" size="40" /><input type="submit" value="Go" onClick="createNames()" /></div>
+<div id="output">
+</div>
+</body>
+</html>
